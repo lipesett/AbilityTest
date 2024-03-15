@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+        }
+
+        .custom-link {
+            width: 400px;
+            height: 140px;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .link-spacing {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h1 class="display-1"><strong>Ability Teste Prático</h1></strong>
+    </div>
+    <div class="container">
+        <div class="center">
+            <a href="/Funcionario/GetAll" class="btn custom-link btn-primary link-spacing">Funcionários</a>
+            <a href="/Dependente/GetAll" class="btn custom-link btn-dark">Dependentes</a>
+        </div>
+    </div>
+</body>
+</html>

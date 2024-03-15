@@ -1,0 +1,85 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Dependentes";
+}
+
+@model List<abilit_test_api.Models.ExibeDependentesViewModel>
+
+<h1>Todos os Dependentes</h1>
+
+<table class="table" id="myTable2">
+    <thead>
+        <tr>
+            <th onclick="sortTable(0)" class="header-pointer">Id</th>
+            <th onclick="sortTable(1)" class="header-pointer">Nome</th>
+            <th onclick="sortTable(2)" class="header-pointer">Data de Nascimento</th>
+            <th onclick="sortTable(3)" class="header-pointer">Gênero</th>
+            <th onclick="sortTable(4)" class="header-pointer">Funcionário Atribuído</th>
+            <th style="text-align: center;">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dep in Model)
+        {
+            <tr>
+                <td>@dep.Id</td>
+                <td><a asp-action="GetById" asp-route-id="@dep.Id">@dep.Nome</a></td>
+                <td>@dep.DataNascimento</td>
+                <td>@dep.NomeGenero</td>
+                <td>@dep.NomeFuncionario - ID: @dep.FuncionarioID</td>
+                <td style="text-align: center;">
+                    <a class="btn btn-primary" asp-controller="Dependente" asp-action="EditarDependente" asp-route-id="@dep.Id">Editar</a>
+                    <form asp-controller="Dependente" asp-action="DeletarDependente" asp-route-id="@dep.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Deletar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-success" asp-controller="Dependente" asp-action="CriarDependente">Novo Dependente</a>
+
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable2");
+        switching = true;
+        dir = "asc";
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>
