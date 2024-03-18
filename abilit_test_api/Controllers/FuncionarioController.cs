@@ -19,7 +19,7 @@ namespace abilit_test_api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var funcionarios = await dbContext.FuncionariosTB.Join(dbContext.GenerosTB,
+            var funcionarios = await dbContext.FuncionarioTB.Join(dbContext.GeneroTB,
                 funcionario => funcionario.GeneroID, genero => genero.Id,
                 (funcionario, genero) => new ExibeFuncionarioViewModel
                 {
@@ -38,7 +38,7 @@ namespace abilit_test_api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
-            var func = await dbContext.FuncionariosTB
+            var func = await dbContext.FuncionarioTB
                 .Where(f => f.Id == id)
                 .Select(funcionario => new ExibeFuncionarioViewModel
                 {
@@ -46,7 +46,7 @@ namespace abilit_test_api.Controllers
                     Nome = funcionario.Nome,
                     DataNascimento = funcionario.DataNascimento,
                     Salario = funcionario.Salario,
-                    NomeGenero = dbContext.GenerosTB
+                    NomeGenero = dbContext.GeneroTB
                         .FirstOrDefault(g => g.Id == funcionario.GeneroID).NomeGenero,
                     NomesDependentes = dbContext.DependentesTB
                         .Where(d => d.FuncionarioID == funcionario.Id)
@@ -74,7 +74,7 @@ namespace abilit_test_api.Controllers
                 GeneroID = viewModel.GeneroID
             };
 
-            await dbContext.FuncionariosTB.AddAsync(func);
+            await dbContext.FuncionarioTB.AddAsync(func);
             await dbContext.SaveChangesAsync();
 
             return RedirectToAction("GetAll", "Funcionario");
@@ -83,7 +83,7 @@ namespace abilit_test_api.Controllers
         [HttpGet]
         public async Task<IActionResult> EditarFuncionario(int id)
         {
-            var func = await dbContext.FuncionariosTB
+            var func = await dbContext.FuncionarioTB
                 .Where(f => f.Id == id)
                 .Select(funcionario => new ExibeFuncionarioViewModel
                 {
@@ -92,7 +92,7 @@ namespace abilit_test_api.Controllers
                     DataNascimento = funcionario.DataNascimento,
                     Salario = funcionario.Salario,
                     GeneroID = funcionario.GeneroID,
-                    NomeGenero = dbContext.GenerosTB
+                    NomeGenero = dbContext.GeneroTB
                         .FirstOrDefault(g => g.Id == funcionario.GeneroID).NomeGenero,
                     NomesDependentes = dbContext.DependentesTB
                         .Where(d => d.FuncionarioID == funcionario.Id)
@@ -106,7 +106,7 @@ namespace abilit_test_api.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarFuncionario(FuncionarioTB viewModel)
         {
-            var func = await dbContext.FuncionariosTB.FindAsync(viewModel.Id);
+            var func = await dbContext.FuncionarioTB.FindAsync(viewModel.Id);
 
             if (func is not null)
             {
@@ -124,11 +124,11 @@ namespace abilit_test_api.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletarFuncionario(int id)
         {
-            var func = await dbContext.FuncionariosTB.FindAsync(id);
+            var func = await dbContext.FuncionarioTB.FindAsync(id);
 
             if (func != null)
             {
-                dbContext.FuncionariosTB.Remove(func);
+                dbContext.FuncionarioTB.Remove(func);
                 await dbContext.SaveChangesAsync();
             }
 

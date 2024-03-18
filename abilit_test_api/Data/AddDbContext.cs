@@ -14,11 +14,11 @@ namespace abilit_test_api.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(Configuration.GetConnectionString("AbilitTest"));
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("AbilitTest"));
         }
 
-        public DbSet<GeneroTB> GenerosTB { get; set; }
-        public DbSet<FuncionarioTB> FuncionariosTB { get; set; }
+        public DbSet<GeneroTB> GeneroTB { get; set; }
+        public DbSet<FuncionarioTB> FuncionarioTB { get; set; }
         public DbSet<DependentesTB> DependentesTB { get; set; }
     }
 }

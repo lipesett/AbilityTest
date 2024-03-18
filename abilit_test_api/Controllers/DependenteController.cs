@@ -20,10 +20,10 @@ namespace abilit_test_api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var dependents = await dbContext.DependentesTB
-                .Join(dbContext.FuncionariosTB,
+                .Join(dbContext.FuncionarioTB,
                     dependente => dependente.FuncionarioID, funcionario => funcionario.Id,
                     (dependente, funcionario) => new { Dependente = dependente, Funcionario = funcionario })
-                .Join(dbContext.GenerosTB,
+                .Join(dbContext.GeneroTB,
                     joined => joined.Dependente.GeneroID,
                     genero => genero.Id,
                     (joined, genero) => new ExibeDependentesViewModel
@@ -53,9 +53,9 @@ namespace abilit_test_api.Controllers
                     DataNascimento = dependente.DataNascimento,
                     GeneroID = dependente.GeneroID,
                     FuncionarioID = dependente.FuncionarioID,
-                    NomeGenero = dbContext.GenerosTB
+                    NomeGenero = dbContext.GeneroTB
                         .FirstOrDefault(g => g.Id == dependente.GeneroID).NomeGenero,
-                    NomeFuncionario = dbContext.FuncionariosTB.FirstOrDefault(d => d.Id == dependente.FuncionarioID).Nome
+                    NomeFuncionario = dbContext.FuncionarioTB.FirstOrDefault(d => d.Id == dependente.FuncionarioID).Nome
                 }).FirstOrDefaultAsync();
 
             return View(dep);
@@ -64,7 +64,7 @@ namespace abilit_test_api.Controllers
         [HttpGet]
         public async Task<IActionResult> CriarDependente()
         {
-            var funcionarios = await dbContext.FuncionariosTB
+            var funcionarios = await dbContext.FuncionarioTB
                 .OrderBy(f => f.Id)
                 .ToListAsync();
 
@@ -102,7 +102,7 @@ namespace abilit_test_api.Controllers
         [HttpGet]
         public async Task<IActionResult> EditarDependente(int id)
         {
-            var funcionarios = await dbContext.FuncionariosTB
+            var funcionarios = await dbContext.FuncionarioTB
                 .OrderBy(f => f.Id)
                 .ToListAsync();
 
@@ -114,7 +114,7 @@ namespace abilit_test_api.Controllers
                     Nome = funcionario.Nome,
                     DataNascimento = funcionario.DataNascimento,
                     GeneroID = funcionario.GeneroID,
-                    NomeGenero = dbContext.GenerosTB
+                    NomeGenero = dbContext.GeneroTB
                         .FirstOrDefault(g => g.Id == funcionario.GeneroID).NomeGenero,
                     FuncionarioID = funcionario.FuncionarioID,
                     FuncionariosDisponiveis = funcionarios.Select(f =>
